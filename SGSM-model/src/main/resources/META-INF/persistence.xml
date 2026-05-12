@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <!--
+    Fișier de configurare pentru JPA (Java Persistence API) și Hibernate.
+
+    Locație: PSI-model/src/main/resources/META-INF/persistence.xml
+
+    Responsibilități:
+    - Definire Persistence Unit (unitate de persistență)
+    - Configurare conexiune la baza de date
+    - Configurare Hibernate (generare schema, SQL logging, etc.)
+
+    Parametri importanți:
+    - hibernate.connection.url: URL conexiune BD
+    - hibernate.connection.username: Utilizator BD
+    - hibernate.connection.password: Parolă BD
+    - hibernate.hbm2ddl.auto: update (actualizare schema la fiecare start)
+    - hibernate.show_sql: true (afișare SQL în console)
+    -->
+
+    <persistence-unit name="PSIPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+
+        <!--
+        Provider: Implementarea JPA.
+        Hibernate este implementarea open-source cea mai populară.
+        -->
+        <provider>org.hibernate.ejb.HibernatePerst</provider>
+
+        <!--
+        Clase entitate: Listarea tuturor claselor cu @Entity care trebuie mapate.
+
+        IMPORTANT: Trebuie să listezi TOATE clasele entitate:
+        - AbstractEntity (superclasă, dar o listez și ea)
+        - Document (superclasă)
+        - Aviz, Comanda, FacturaDeAvans (subclase concrete)
+        - Client, Produs (nomenclatoare)
+        -->
+        <class>ro.uaic.feaa.psi.sgsm.model.entities.AbstractEntity</class>
+        <class>ro.uaic.feaa.psi.sgsm.model.entities.Document</class>
+        <class>ro.uaic.feaa.psi.sgsm.model.entities.Aviz</class>
+        <class>ro.uaic.feaa.psi.sgsm.model.entities.Comanda</class>
+        <class>ro.uaic.feaa.psi.sgsm.model.entities.Client</class>
+        <class>ro.uaic.feaa.psi.sgsm.model.entities.Produs</class>
+
+        <!--
+        Exclude unlisted classes: false
+        Permite incarcare automata a claselor @Entity (nu trebuie enumerate toate manual).
+        Se recomandă false pentru controlul explicit.
+        -->
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+
+            <!-- ===== DRIVER JDBC ===== -->
+            <!-- PostgreSQL JDBC Driver -->
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+
+            <!-- ===== CONEXIUNE BAZĂ DE DATE ===== -->
+            <!--
+            URL conexiune: jdbc:postgresql://HOST:PORT/DBNAME
+
+            Configurare PostgreSQL:
+            - HOST: localhost (dacă e local) sau IP server
+            - PORT: 5432 (port implicit PostgreSQL)
+            - DBNAME: postgres (baza implicită) sau schema din coursul BD I
+
+            EXEMPLE:
+            1. Local: jdbc:postgresql://localhost:5432/postgres
+            2. Cu schema: jdbc:postgresql://localhost:5432/postgres?currentSchema=psi
+            -->
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+
+            <!-- Utilizator BD -->
+            <property name="hibernate.connection.username" value="postgres"/>
+
+            <!-- Parolă BD -->
+            <property name="hibernate.connection.password" value="postgres"/>
+
+            <!-- ===== SQL DIALECT ===== -->
+            <!--
+            Dialect: versiunea SQL specifică motorului BD.
+            PostgreSQL: org.hibernate.dialect.PostgreSQLDialect
+            -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+            <!-- ===== GENERARE SCHEMA =====  -->
+            <!--
+            hibernate.hbm2ddl.auto: Comportamentul la startup
+
+            Valori:
+            - validate: numai validare (schema trebuie să existe)
+            - update: crează/modifică schema pe baza entităților (RECOMANDARE pentru development)
+            - create: șterge și recreează schema (ATENȚIE: pierde datele!)
+            - create-drop: crează la startup, șterge la shutdown (teste)
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <!-- ===== LOGGING SQL ===== -->
+            <!--
+            Afișare SQL în consolă.
+            RECOMANDAT la development pentru debugging.
+            DEZACTIVA în producție (performance).
+            -->
+            <property name="hibernate.show_sql" value="true"/>
+
+            <!-- Pretty print SQL -->
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!-- SQL logging via SLF4J (mai elegant) -->
+            <property name="hibernate.use_sql_comments" value="true"/>
+
+            <!-- ===== CACHE ===== -->
+            <!--
+            Cache: stocare în memorie a entităților pentru performance.
+
+            First-level cache: ÎNTOTDEAUNA activ (Session-level, în EntityManager)
+            Second-level cache: Opțional (Application-level)
+
+            Pentru simplitate, nu activez second-level cache în acest project.
+            -->
+
+            <!-- ===== CONNECTION POOL ===== -->
+            <!--
+            Pool de conexiuni: reutilizare conexiuni pentru performance.
+
+            Hibernate foloseşte HikariCP implicit (recomandare).
+            Nu trebuie configurat suplimentar pentru acest project mic.
+            -->
+
+            <!-- ===== SETTINGS SUPLIMENTARE ===== -->
+
+            <!-- Character encoding -->
+            <property name="hibernate.connection.CharSet" value="utf8"/>
+            <property name="hibernate.connection.characterEncoding" value="utf8"/>
+
+            <!-- JDBC batch size (pentru INSERT bulk) -->
+            <property name="hibernate.jdbc.batch_size" value="20"/>
+
+            <!-- Optimistic Locking (versioning) -->
+            <!-- Hibernate suportă @Version automat - nu trebuie config aici -->
+
+        </properties>
+    </persistence-unit>
+
+</persistence>
