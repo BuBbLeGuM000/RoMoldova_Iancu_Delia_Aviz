@@ -135,7 +135,7 @@ public class TestFluxVanzareAviz {
             Double tara = 15.0;  // Greutate tara: 15 tone
             // Net = 40 - 15 = 25 tone
 
-            controller.recalculeazaDateCântar(brut, tara);
+            controller.recalculeazaDateCantar(brut, tara);
             System.out.println("  - Brut: " + brut + " tone");
             System.out.println("  - Tara: " + tara + " tone");
             System.out.println("  - Net (calculat): " +
@@ -200,7 +200,7 @@ public class TestFluxVanzareAviz {
             // ===== REZUMAT TEST =====
 
             System.out.println("========================================");
-            System.out.println("✓✓✓ TOȚI TESTELE AU TRECUT! ✓✓✓");
+            System.out.println("    TOATE TESTELE AU TRECUT! ✓✓✓");
             System.out.println("========================================\n");
 
             System.out.println("REZUMAT:");
