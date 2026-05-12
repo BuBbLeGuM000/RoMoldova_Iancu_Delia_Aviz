@@ -29,7 +29,7 @@
         Provider: Implementarea JPA.
         Hibernate este implementarea open-source cea mai populară.
         -->
-        <provider>org.hibernate.ejb.HibernatePerst</provider>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!--
         Clase entitate: Listarea tuturor claselor cu @Entity care trebuie mapate.

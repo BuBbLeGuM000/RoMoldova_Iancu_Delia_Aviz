@@ -231,6 +231,10 @@ public class MasterRepository extends AbstractRepository {
 		this.create(f);
 	}
 
+	public Furnizor findFurnizorById(Long idFurnizor) {
+		return em.find(Furnizor.class, idFurnizor);
+	}
+
 	public List<Localitate> findLocalitatiAll() {
 		return em.createQuery("SELECT l FROM Localitate l", Localitate.class).getResultList();
 	}

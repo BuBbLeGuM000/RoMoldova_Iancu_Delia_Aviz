@@ -132,7 +132,7 @@ public class DocumentRepository extends AbstractRepository {
 	 *
 	 * @return listă de toate comenzile
 	 */
-	public List<Comanda> findToareComenzi() {
+	public List<Comanda> findToateComenzi() {
 		Query query = em.createQuery("SELECT c FROM Comanda c ORDER BY c.dataDocument DESC");
 		@SuppressWarnings("unchecked")
 		List<Comanda> result = query.getResultList();
@@ -144,7 +144,7 @@ public class DocumentRepository extends AbstractRepository {
 	 *
 	 * @return listă de toate avizele
 	 */
-	public List<Aviz> findToareAvize() {
+	public List<Aviz> findToateAvize() {
 		Query query = em.createQuery("SELECT a FROM Aviz a ORDER BY a.dataExpedierii DESC");
 		@SuppressWarnings("unchecked")
 		List<Aviz> result = query.getResultList();

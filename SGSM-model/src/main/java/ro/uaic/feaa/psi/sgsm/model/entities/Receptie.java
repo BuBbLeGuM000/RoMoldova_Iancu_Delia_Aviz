@@ -25,6 +25,10 @@ public class Receptie extends Document{
 	public void setLiniiDocument(List<LinieDocument> liniiDocument) {
 		this.liniiDocument = liniiDocument;
 	}
+	public void addLinieDocument(LinieDocument linie) {
+		this.liniiDocument.add(linie);
+		linie.setDocument(this);
+	}
 	public DocInsotitor getDocInsotitor() {
 		return docInsotitor;
 	}
